@@ -16,15 +16,8 @@ import { DesignResponseDto } from "./design-response.dto";
 import { UpdateDesignDto } from "./update-design.dto";
 import { UserId } from "src/decorators/user-id.decorator";
 import { DesignOwnershipGuard } from "src/guards/design-owner.guard";
-
-type DesignResponseWithPagination = {
-  search?: string;
-  data: DesignResponseDto[];
-  pagination: {
-    limit: number;
-    offset: number;
-  };
-};
+import { FindDesignsQueryDTO } from "./find-designs-query.dto";
+import { FindDesignsResponseDTO } from "./find-designs-response.dto";
 
 @Controller("designs")
 export class DesignsController {
@@ -46,21 +39,19 @@ export class DesignsController {
 
   @Get()
   async findAllDesigns(
-    @Query("limit") limit: number = 6,
-    @Query("offset") offset: number = 0,
-    @Query("search") search: string,
-  ): Promise<DesignResponseWithPagination> {
+    @Query() query: FindDesignsQueryDTO,
+  ): Promise<FindDesignsResponseDTO> {
+    const { limit, offset, search } = query;
+
     const designs = await this.designsService.findAllDesigns(
       limit,
       offset,
       search,
     );
     return {
+      limit,
+      offset,
       search,
-      pagination: {
-        limit,
-        offset,
-      },
       data: designs.map((design) => {
         delete design.userId;
         return design;

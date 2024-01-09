@@ -6,9 +6,21 @@ import { HttpResponseFilter } from "./filters/http-response.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+          transform: true,
+          whitelist: true,
+          forbidNonWhitelisted: true, 
+          transformOptions: {
+            enableImplicitConversion: true,
+          },
+    }),
+  );
+
   app.useGlobalFilters(new HttpResponseFilter());
   app.useGlobalInterceptors(new HttpResponseInterceptor());
+
   await app.listen(3000);
 }
 bootstrap();
