@@ -1,5 +1,5 @@
-import { Design } from 'src/designs/design.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Design } from "src/designs/design.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 
 @Entity()
 export class User {

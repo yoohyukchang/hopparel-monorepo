@@ -3,20 +3,18 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 type State = {
-    // Add state variables
+  // Add state variables
 };
 
 type Action = {
-    // Add actions
+  // Add actions
 };
 
 // define the initial state
-const initialState: State = {
-
-};
+const initialState: State = {};
 
 export const useStore = create<State & Action>()(
-    immer((set, get) => ({
-        ...initialState,
-    }))
-  );
+  immer((set, get) => ({
+    ...initialState,
+  })),
+);
