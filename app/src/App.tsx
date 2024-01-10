@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import MainView from "./views/main-view";
-import ErrorPage from "./views/error-page";
-import DesignCreateView from "./views/design-create-view";
+import MainView from "./components/views/main-view";
+import ErrorPage from "./components/views/error-page";
+import DesignCreateView from "./components/views/design-create-view";
 import Footer from "./components/footer";
+import MyDesignsView from "./components/views/my-designs-view";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,11 @@ const router = createBrowserRouter([
   {
     path: "/create-design",
     element: <DesignCreateView />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/my-designs",
+    element: <MyDesignsView/>,
     errorElement: <ErrorPage />,
   }
 ]);

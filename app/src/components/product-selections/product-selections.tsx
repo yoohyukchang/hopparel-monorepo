@@ -6,10 +6,10 @@ import beanieImg from "@/assets/beanie.png";
 
 const ProductSelections = () => {
   const products = [
-    { name: "Hoodie", image: hoodieImg },
-    { name: "Sweatshirt", image: sweatshirtImg },
-    { name: "T-Shirt", image: tshirtImg },
-    { name: "Beanie", image: beanieImg },
+    { productType: "Hoodie", image: hoodieImg },
+    { productType: "Sweatshirt", image: sweatshirtImg },
+    { productType: "T-Shirt", image: tshirtImg },
+    { productType: "Beanie", image: beanieImg },
   ];
 
   return (
@@ -17,8 +17,8 @@ const ProductSelections = () => {
       <div className="grid grid-cols-2 gap-4 w-full md:w-1/2 lg:w-1/2">
         {products.map((product) => (
           <ProductSelection
-            key={product.name}
-            name={product.name}
+            key={product.productType}
+            productType={product.productType}
             image={product.image}
           />
         ))}

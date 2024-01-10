@@ -1,5 +1,5 @@
-import MainBody from "../components/main-body";
-import Header from "../components/header";
+import MainBody from "../main-body";
+import Header from "../header";
 
 const MainView = () => {
   return (
