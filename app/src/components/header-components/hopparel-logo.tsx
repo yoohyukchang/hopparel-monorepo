@@ -1,8 +1,12 @@
+import { Link } from "react-router-dom";
+
 const HopparelLogo = () => {
     return (
-        <div>
-            Hopparel
-        </div>
+        <Link to="/">
+            <h1 className="text-xl font-bold">
+                Hopparel
+            </h1>
+        </ Link>
     );
 };
 
