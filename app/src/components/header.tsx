@@ -8,7 +8,6 @@ import { useStore } from "@/lib/store";
 import { LogoutDialog } from "./auth/logout-dialog";
 import { LoginDialog } from "./auth/login-dialog";
 import { RegisterDialog } from "./auth/register-dialog";
-import { Button } from "./ui/button";
 
 const Header = () => {
   const user = useStore((state) => state.user);
