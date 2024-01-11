@@ -31,7 +31,9 @@ const Header = () => {
                 </div>
                 <nav className="flex flex-col gap-4">
                   <Link to="/my-designs" className='block px-2 py-7 text-sm'>
-                    My Designs
+                    <span className="font-semibold">
+                      My Designs
+                    </span>
                   </Link>
                 </nav>
               </SheetContent>
@@ -40,7 +42,9 @@ const Header = () => {
           </div>
           <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 hidden md:block">
             <Link to="/my-designs" className='text-sm font-medium transition-colors'>
-              My Designs
+              <span className="font-semibold">
+                My Designs
+              </span>
             </Link>
           </nav>
           <div>
