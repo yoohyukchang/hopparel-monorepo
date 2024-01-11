@@ -13,6 +13,7 @@ function useMutationUser() {
         try {
             const user = await login(username, password);
             setUser(user);
+            console.log(user);
         } catch (error) {
             toast({
                 variant: "destructive",

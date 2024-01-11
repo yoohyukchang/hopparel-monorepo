@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import userIcon from "@/assets/user.png";
 
 const ProfileButton = () => {
@@ -8,6 +8,7 @@ const ProfileButton = () => {
             <DropdownMenuTrigger>
                 <Avatar>
                     <AvatarImage src={userIcon}/>
+                    <AvatarFallback></AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>

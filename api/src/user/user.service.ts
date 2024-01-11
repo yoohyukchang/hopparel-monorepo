@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./user.entity";
@@ -22,6 +22,16 @@ export class UserService {
       ...userInfo,
       password: await bcrypt.hash(password, 10),
     });
-    return this.userRepository.save(user);
+
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      // Check if the error message contains a specific keyword indicating a duplicate username
+      if (error.message && error.message.includes("duplicate key")) {
+        throw new ConflictException("Username already exists.");
+      }
+      // Re-throw the error for any other cases
+      throw error;
+    }
   }
 }
