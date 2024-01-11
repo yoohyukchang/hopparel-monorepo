@@ -1,18 +1,10 @@
 import { Link } from "react-router-dom";
 
-type HopparelLogoProps = {
-    isAuthPage: boolean;
-}
-
-const HopparelLogo = ({ isAuthPage }: HopparelLogoProps) => {
-    let hopparelLogoClass = 'text-xl font-bold';
-    if (isAuthPage) {
-        hopparelLogoClass = 'text-4xl font-bold mx-auto';
-    }
+const HopparelLogo = () => {
 
     return (
         <Link to="/">
-            <h1 className={hopparelLogoClass}>
+            <h1 className="text-xl font-bold">
                 Hopparel
             </h1>
         </ Link>

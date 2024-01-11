@@ -1,12 +1,14 @@
 
 import HopparelLogo from "./header-components/hopparel-logo";
 import { Menu } from "lucide-react";
-import ProfileButton from "./header-components/profile-button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Link } from "react-router-dom";
 import Container from "./ui/container";
 import { useStore } from "@/lib/store";
-import LoginButton from "./header-components/login-button";
+import { LogoutDialog } from "./auth/logout-dialog";
+import { LoginDialog } from "./auth/login-dialog";
+import { RegisterDialog } from "./auth/register-dialog";
+import { Button } from "./ui/button";
 
 const Header = () => {
   const user = useStore((state) => state.user);
@@ -21,21 +23,32 @@ const Header = () => {
                 <Menu className="h-6 md:hidden w-6" />
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <div>
+                  <span className="padding-right">
+                    {user ? <LogoutDialog /> : <LoginDialog />}
+                  </span>
+                  {!user && <RegisterDialog />}
+                </div>
                 <nav className="flex flex-col gap-4">
-                  <Link to="/my-designs" className='block px-2 py-1 text-lg'>
+                  <Link to="/my-designs" className='block px-2 py-7 text-sm'>
                     My Designs
                   </Link>
                 </nav>
               </SheetContent>
             </Sheet>
-            <HopparelLogo isAuthPage={false} />
+            <HopparelLogo />
           </div>
           <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 hidden md:block">
             <Link to="/my-designs" className='text-sm font-medium transition-colors'>
               My Designs
             </Link>
           </nav>
-          {user ? <ProfileButton /> : <LoginButton />}
+          <div>
+            <span className="padding-right">
+              {user ? <LogoutDialog /> : <LoginDialog />}
+            </span>
+              {!user && <RegisterDialog />}
+          </div>
         </div>
       </Container>
     </header>

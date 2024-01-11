@@ -4,28 +4,17 @@ import ErrorPage from "./components/views/error-page";
 import DesignCreateView from "./components/views/design-create-view";
 import Footer from "./components/footer";
 import MyDesignsView from "./components/views/my-designs-view";
-import LoginView from "./components/views/log-in-view";
-import SignupView from "./components/views/signup-view";
 import { useStore } from "./lib/store";
 import { useToast } from "./components/ui/use-toast";
 import { useEffect } from "react";
 import { getAuthenticatedUserToken, isTokenExpired, removeAuthenticatedUserToken } from "./lib/auth";
+import { Toaster } from "./components/ui/toaster";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainView />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/login-page",
-    element: <LoginView />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignupView />,
-    errorElement: <ErrorPage />
   },
   {
     path: "/create-design",
@@ -62,6 +51,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <RouterProvider router={router} />
+      <Toaster />
       <Footer />
     </div>
   );
