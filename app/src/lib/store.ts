@@ -5,7 +5,7 @@ import { Design, User } from "./types";
 type State = {
   designs: Design[];
   user: User | null;
-  selectedProductType: string | null;
+  selectedProductType: string | undefined;
 };
 
 type Action = {
@@ -26,7 +26,7 @@ type Action = {
 const initialState: State = {
   designs: [],
   user: null,
-  selectedProductType: null,
+  selectedProductType: undefined,
 };
 
 export const useStore = create<State & Action>()(
@@ -69,6 +69,6 @@ export const useStore = create<State & Action>()(
 
     setSelectedProductType: (productType: string) => set({ selectedProductType: productType }),
 
-    clearSelectedProductType: () => set({ selectedProductType: null }),
+    clearSelectedProductType: () => set({ selectedProductType: undefined }),
   })),
 );

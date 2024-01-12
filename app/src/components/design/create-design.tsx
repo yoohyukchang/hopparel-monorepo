@@ -1,3 +1,4 @@
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Stage, Layer, Image, Text, Transformer, Group } from 'react-konva';
 import useImage from 'use-image';
 import { useStore } from "@/lib/store";
@@ -8,6 +9,7 @@ import beanieImg from "@/assets/beanie.png";
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import Konva from 'konva'
+  
 
 const CreateDesign: React.FC = () => {
     const selectedProductType = useStore((state) => state.selectedProductType);
@@ -29,7 +31,12 @@ const CreateDesign: React.FC = () => {
         if (savedProductType) {
             setSelectedProductType(savedProductType);
         }
-    }, []);    
+    }, []);
+
+    // Function to handle selection change
+    const handleSelectChange = (value: string) => {
+        setSelectedProductType(value);
+    };
 
     let img;
     if (selectedProductType === 'Hoodie') img = hoodieImg;
@@ -37,7 +44,8 @@ const CreateDesign: React.FC = () => {
     else if (selectedProductType === 'T-Shirt') img = tshirtImg;
     else if (selectedProductType === 'Beanie') img = beanieImg;
     else {
-        img = tshirtImg;
+        // white background for now for default.
+        img = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/White_square_50%25_transparency.svg/1000px-White_square_50%25_transparency.svg.png';
     }
 
     const [image] = useImage(img);
@@ -77,13 +85,26 @@ const CreateDesign: React.FC = () => {
 
     return (
         <>
+            <div className="flex justify-center items-center py-5">
+                <Select value={selectedProductType} onValueChange={handleSelectChange}>
+                    <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Product Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="Hoodie">Hoodie</SelectItem>
+                        <SelectItem value="Sweatshirt">Sweatshirt</SelectItem>
+                        <SelectItem value="T-Shirt">T-Shirt</SelectItem>
+                        <SelectItem value="Beanie">Beanie</SelectItem>
+                    </SelectContent>
+                </Select>  
+                </div>
             <div className='container'>
                 <Stage 
                     width={stageWidth} 
                     height={stageHeight} 
                     ref={stageRef}
                     onMouseDown={checkDeselect}
-                    style={{ marginTop: '-150px' }}
+                    style={{ marginTop: '-150px', border: '1px solid black' }}
                 >
                     <Layer>
                         {image && (
@@ -107,7 +128,7 @@ const CreateDesign: React.FC = () => {
                                 }
                             }}
                         >
-                            <Text text="Hopkins" fontSize={100} x={0} y={100} />
+                            <Text text="Hopkins" fontSize={100} x={x} y={y} />
                         </Group>
                         <Transformer ref={transformerRef} />
                     </Layer>
