@@ -1,4 +1,4 @@
-import { Stage, Layer, Image, Text, Transformer } from 'react-konva';
+import { Stage, Layer, Image, Text, Transformer, Group } from 'react-konva';
 import useImage from 'use-image';
 import { useStore } from "@/lib/store";
 import hoodieImg from "@/assets/hoodie.png";
@@ -9,70 +9,11 @@ import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import Konva from 'konva'
 
-interface TransformableTextProps {
-    textProps: Konva.TextConfig;
-    isSelected: boolean;
-    onSelect: () => void;
-    onChange: (newAttrs: any) => void;
-  }
-  
-  const TransformableText: React.FC<TransformableTextProps> = ({ textProps, isSelected, onSelect, onChange }) => {
-    const textRef = useRef<Konva.Text>(null);
-    const trRef = useRef<Konva.Transformer>(null);
-  
-    useEffect(() => {
-      if (isSelected && textRef.current && trRef.current) {
-        trRef.current.nodes([textRef.current]);
-        trRef.current.getLayer()?.batchDraw();
-      }
-    }, [isSelected]);
-  
-    return (
-      <>
-        <Text
-          onClick={onSelect}
-          onTap={onSelect}
-          ref={textRef}
-          {...textProps}
-          draggable
-          onDragEnd={(e) => {
-            onChange({
-              ...textProps,
-              x: e.target.x(),
-              y: e.target.y(),
-            });
-          }}
-          onTransformEnd={() => {
-            if (textRef.current) {
-              onChange({
-                ...textProps,
-                x: textRef.current.x(),
-                y: textRef.current.y(),
-                width: textRef.current.width(),
-                height: textRef.current.height(),
-              });
-            }
-          }}
-        />
-        {isSelected && trRef.current && (
-          <Transformer
-            ref={trRef}
-            flipEnabled={false}
-            boundBoxFunc={(oldBox, newBox) => {
-              if (newBox.width < 5 || newBox.height < 5) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-          />
-        )}
-      </>
-    );
-};
-
 const CreateDesign: React.FC = () => {
     const selectedProductType = useStore((state) => state.selectedProductType);
     const setSelectedProductType = useStore((state) => state.setSelectedProductType);
+    const transformerRef = useRef<Konva.Transformer>(null);
+    const stageRef = useRef<Konva.Stage>(null);
 
     // Save to localStorage when selectedProductType changes
     useEffect(() => {
@@ -121,61 +62,56 @@ const CreateDesign: React.FC = () => {
         y = (stageHeight - imageHeight) / 2;
     }
 
+    const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    // transformable texts
-    const [textProps, setTextProps] = useState({
-        x: 50,
-        y: 50,
-        text: 'Hopkins',
-        fontSize: 20,
-        fill: 'black',
-        draggable: true,
-      });
-      const [selectedId, selectShape] = useState<string | null>(null);
-    
-      const checkDeselect = (e: any) => {
-        const clickedOnEmpty = e.target === e.target.getStage();
+    const checkDeselect = (e: Konva.KonvaEventObject<MouseEvent>) => {
+        const clickedOnEmpty = e.target === stageRef.current;
         if (clickedOnEmpty) {
-          selectShape(null);
+            setSelectedId(null);
+            const tr = transformerRef.current;
+            if (tr) {
+                tr.nodes([]);
+            }
         }
-      };
-
-
-
+    };
 
     return (
         <>
             <div className='container'>
-            <Stage 
-                width={stageWidth} 
-                height={stageHeight} 
-                style={{ 
-                    marginTop: '-150px'
-                }}>
-                <Layer>
-                    {image && (
-                        <Image
-                            image={image}
-                            x={x}
-                            y={y}
-                            scaleX={scale}
-                            scaleY={scale}
-                            width={image.width}
-                            height={image.height}
-                        />
-                    )}
-                    <TransformableText
-                    textProps={textProps}
-                    isSelected={selectedId === 'text1'}
-                    onSelect={() => {
-                        selectShape('text1');
-                    }}
-                    onChange={(newAttrs) => {
-                        setTextProps(newAttrs);
-                    }}
-                    />
-                </Layer>
-            </Stage>
+                <Stage 
+                    width={stageWidth} 
+                    height={stageHeight} 
+                    ref={stageRef}
+                    onMouseDown={checkDeselect}
+                    style={{ marginTop: '-150px' }}
+                >
+                    <Layer>
+                        {image && (
+                            <Image
+                                image={image}
+                                x={x}
+                                y={y}
+                                scaleX={scale}
+                                scaleY={scale}
+                                width={image.width}
+                                height={image.height}
+                            />
+                        )}
+                        <Group
+                            draggable
+                            onClick={(event) => {
+                                const tr = transformerRef.current;
+                                if (tr) {
+                                    tr.nodes([event.target]);
+                                    setSelectedId('text1');
+                                }
+                            }}
+                        >
+                            <Text text="Hopkins" fontSize={100} x={0} y={100} />
+                        </Group>
+                        <Transformer ref={transformerRef} />
+                    </Layer>
+                </Stage>
             </div>
         </>
     );
