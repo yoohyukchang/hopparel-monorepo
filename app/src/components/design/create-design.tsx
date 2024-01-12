@@ -50,7 +50,10 @@ const CreateDesign: React.FC = () => {
 
     const [image] = useImage(img);
 
-    let scaleX, scaleY, scale, x, y;
+    // Define initial values and types for x and y
+    let scaleX: number, scaleY: number, scale;
+    let x: number = 0; // Initial value and type for x
+    let y: number = 0; // Initial value and type for y
     const stageWidth = 600;
     const stageHeight = 600;
     const padding = 50;
@@ -97,7 +100,7 @@ const CreateDesign: React.FC = () => {
                         <SelectItem value="Beanie">Beanie</SelectItem>
                     </SelectContent>
                 </Select>  
-                </div>
+            </div>
             <div className='container'>
                 <Stage 
                     width={stageWidth} 
