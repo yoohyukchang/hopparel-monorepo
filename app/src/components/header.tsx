@@ -28,24 +28,10 @@ const Header = () => {
                   </span>
                   {!user && <RegisterDialog />}
                 </div>
-                <nav className="flex flex-col gap-4">
-                  <Link to="/my-designs" className='block px-2 py-7 text-sm'>
-                    <span className="font-semibold">
-                      My Designs
-                    </span>
-                  </Link>
-                </nav>
               </SheetContent>
             </Sheet>
             <HopparelLogo />
           </div>
-          <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 hidden md:block">
-            <Link to="/my-designs" className='text-sm font-medium transition-colors'>
-              <span className="font-semibold">
-                My Designs
-              </span>
-            </Link>
-          </nav>
           <div>
             <span className="padding-right">
               {user ? <LogoutDialog /> : <LoginDialog />}
